@@ -30,7 +30,11 @@ def edit_book(request, pk):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    instance = Book.objects.get(id=pk)
+    try:        
+        instance = Book.objects.get(id=pk)
+    except Book.DoesNotExist:
+        return redirect("home")
+
     if instance.posted_by != request.user:
         return redirect("home")
 

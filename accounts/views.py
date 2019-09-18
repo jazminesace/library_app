@@ -5,7 +5,9 @@ from django.contrib import auth
 
 # Create your views here.
 def signup(request):
-    print(request)
+    if request.user.is_authenticated:
+        return redirect("home")
+
     if request.method == "POST":
         if request.POST["password1"] == request.POST["password2"]:
             try:
@@ -22,6 +24,9 @@ def signup(request):
         return render(request, "signup.html")
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+
     if request.method == "POST":
         user = auth.authenticate(
             username=request.POST['username'],
