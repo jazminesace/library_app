@@ -5,14 +5,19 @@ from .forms import BookForm
 
 # Create your views here.
 def home(request):
-    books = Book.objects.all()
-    return render(request, "index.html", {"books": books})
+    if request.user.is_authenticated:
+        books = Book.objects.filter(posted_by=request.user)
+        return render(request, "index.html", {"books": books})
+    else:
+        return redirect("login")
 
 def add_book(request):
     if request.method == "POST":
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            book = form.save(commit=True)
+            book = form.save(commit=False)
+            book.posted_by = request.user
+            book.save()
             return redirect("home")
     else:
         form = BookForm()

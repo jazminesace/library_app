@@ -5,20 +5,23 @@
     <h1>My Books</h1>
 </div>
 <div class="container d-flex flex-row flex-wrap justify-content-start"> 
-
-    {% for book in books %}
-
-    <div class="card text-center m-3" style="width: 15rem;">
-        <img class="card-img-top" src="{{ book.cover.url }}" style="width: 100%; height: 25vw; object-fit: cover;" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">{{ book.title }}</h5>
-            <p class="card-text lead">{{ book.author }}</p>
+    {% if books|length == 0 %}
+        <h3>No books to show. <a href="{% url 'add_book' %}">Want to add one?</a></h3>
+    {% else %}
+        {% for book in books %}
+        <div class="card text-center m-3" style="width: 15rem;">
+            <img class="card-img-top" src="{{ book.cover.url }}" style="width: 100%; height: 25vw; object-fit: cover;" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text lead">{{ book.author }}</p>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-link">View More Details</a>
+            </div>
         </div>
-        <div class="card-footer">
-            <a href="#" class="btn btn-link">View More Details</a>
-        </div>
-    </div>
- 
- {% endfor %}
+
+        {% endfor %}
+    {% endif %}
+    
 </div>
 {% endblock %}
