@@ -6,17 +6,25 @@
 </div>
 <div class="container d-flex flex-row flex-wrap justify-content-start"> 
     {% if books|length == 0 %}
-        <h3>No books to show. <a href="{% url 'add_book' %}">Want to add one?</a></h3>
+        <div class="alert alert-dark w-100">
+            <h4 class="alert-heading">No books to show.</h4>
+            <a class="alert-link" href="{% url 'add_book' %}">Want to add one?</a>
+        </div>
+        {% comment %} <h3>No books to show. <a href="{% url 'add_book' %}">Want to add one?</a></h3> {% endcomment %}
     {% else %}
+        
+        <div class="w-100 d-flex justify-content-end">
+            <a class="btn btn-outline-dark" href="{% url 'add_book' %}"><i class="fas fa-plus mr-2"></i>Add Book</a>
+        </div>
         {% for book in books %}
         <div class="card text-center m-3" style="width: 15rem;">
-            <img class="card-img-top" src="{{ book.cover.url }}" style="width: 100%; height: 25vw; object-fit: cover;" alt="Card image cap">
+            <img class="card-img-top" src="{{ book.cover.url }}" style="width: 100%; height: 22vw; object-fit: fill;" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text lead">{{ book.author }}</p>
+                <p class="card-text lead">{{ book.author }}</p></small>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-link">View More Details</a>
+                <a href="{% url 'view_book' pk=book.pk %}" class="btn btn-link">View More</a>
             </div>
         </div>
 
